@@ -30,7 +30,7 @@ void setup() {
     setupAC();
     // Inisialisasi jaringan WiFi
     setupNetwork();
-    userPath = "/";
+    userPath = "/devices/";
     userPath += getDeviceID();
     userPath += "/settings";
 
@@ -55,6 +55,15 @@ void loop() {
     if (Firebase.ready()) {
         int cProtocol = 0, cTemp = 24, cFan = 0, cMode = 0;
         bool cPower = false, cSwing = false;
+
+        // cek protocol_id 
+        if (Firebase.getInt(fbdo, createPath(userPath, "/protocol_id").c_str())) {
+            cProtocol = fbdo.intData();
+        } else {
+            Serial.printf("Gagal mendapatkan protocol_id: ");
+            Serial.println(fbdo.errorReason());
+            return;
+        }
         // 5. Gunakan userPath yang sudah kita buat di setup
         // Kita gunakan .c_str() agar library Firebase membacanya sebagai teks murni
         if (Firebase.getInt(fbdo, createPath(userPath, "/protocol_id").c_str())) cProtocol = fbdo.intData();
