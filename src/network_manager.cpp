@@ -12,96 +12,102 @@ void setupNetwork() {
     // menambahkan css custom jika diperlukan
     const char* custom_html = R"rawliteral(
 <style>
-    body {
-        font-family: sans-serif;
-        background-color: #f4f4f4;
-        padding: 20px;
-    }
 
-    /* ===== ITEM WIFI (KARTU BESAR) ===== */
-    a.q {
-        display: block !important;
-        padding: 30px 20px !important;
-        margin: 16px 0 !important;
-        background: #ffffff;
-        border-radius: 18px;
-        border: 2px solid #ccc;
-        text-decoration: none !important;
-    }
+/* ===== GLOBAL SCALE ===== */
+body {
+    font-family: sans-serif;
+    background-color: #f4f4f4;
+    padding: 25px;
+    font-size: 26px !important;
+}
 
-    /* ===== NAMA WIFI (SSID) ===== */
-    .q .ssid {
-        font-size: 2.6rem !important;   /* LEBIH BESAR DARI LABEL */
-        font-weight: 700 !important;
-        color: #000 !important;
-        line-height: 1.3;
-    }
+/* ===== WIFI SSID LIST ===== */
+a[data-ssid] {
+    display: block !important;
+    font-size: 44px !important;
+    font-weight: 900 !important;
+    padding: 55px 30px !important;
+    margin: 30px 0 !important;
+    line-height: 1.4 !important;
+    border-radius: 22px;
+    background: #ffffff;
+    border: 3px solid #ccc;
+}
 
-    /* ===== SEMBUNYIKAN RSSI & ICON ===== */
-    .q .r,
-    .q .l {
-        display: none !important;
-    }
+/* Hide signal bars */
+div.q {
+    display: none !important;
+}
 
-    /* ===== LABEL ===== */
-    label {
-        display: block;
-        font-size: 2.2rem !important;
-        font-weight: bold;
-        margin-top: 40px;
-        margin-bottom: 15px;
-    }
+/* ===== FORM LABELS ===== */
+label {
+    display: block;
+    font-size: 34px !important;
+    font-weight: 800 !important;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
 
-    /* ===== INPUT FIELD ===== */
-    input {
-        height: 95px !important;
-        font-size: 2.2rem !important;
-        border-radius: 14px;
-        width: 100%;
-        border: 3px solid #999;
-        padding-left: 18px;
-    }
+/* ===== INPUT FIELDS ===== */
+input[type="text"],
+input[type="password"] {
+    height: 120px !important;
+    font-size: 34px !important;
+    border-radius: 18px;
+    width: 100%;
+    border: 3px solid #999;
+    padding-left: 25px;
+}
 
-    /* ===== BUTTON ===== */
-    button {
-        background-color: #007bff !important;
-        height: 120px !important;
-        font-size: 2.6rem !important;
-        font-weight: bold;
-        border-radius: 22px;
-        margin-top: 35px;
-        width: 100%;
-        color: #fff !important;
-    }
+/* ===== BUTTONS ===== */
+button,
+input[type="submit"] {
+    background-color: #007bff !important;
+    height: 140px !important;
+    font-size: 36px !important;
+    font-weight: 900 !important;
+    border-radius: 26px !important;
+    margin-top: 45px;
+    width: 100%;
+    color: #fff !important;
+}
 
-    /* ===== FOKUS / AKSESIBILITAS ===== */
-    a.q:focus,
-    a.q:hover {
-        outline: 4px solid #007bff;
-    }
+/* ===== CHECKBOX (Show Password) ===== */
+input[type="checkbox"] {
+    transform: scale(2.2);
+    margin-right: 15px;
+}
+
+/* ===== GENERAL TEXT (messages like "No AP set") ===== */
+.msg,
+div,
+p,
+span {
+    font-size: 30px !important;
+}
+
+/* ===== TOUCH FRIENDLY SPACING ===== */
+br {
+    display: block;
+    margin-bottom: 20px;
+}
+
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+
+    /* Rename SSID label to Nama WiFi */
     document.querySelectorAll('label').forEach(function(label) {
         if (label.innerText.includes('SSID')) {
             label.innerText = 'Nama WiFi';
         }
     });
+
 });
 </script>
-    <script>
-        // Mengganti teks 'SSID' menjadi 'Nama WiFi' saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', function() {
-            var labels = document.getElementsByTagName('label');
-            for (var i = 0; i < labels.length; i++) {
-                if (labels[i].innerHTML.includes('SSID')) {
-                    labels[i].innerHTML = 'Nama WiFi';
-                }
-            }
-        });
-    </script>
-    )rawliteral";
+)rawliteral";
+
     wm.setCustomHeadElement(custom_html);
     // Autoconnect akan memblokir sampai terhubung atau timeout
     if(!wm.autoConnect("SmartRemote_Setup")) {

@@ -3,12 +3,12 @@
 #include <IRsend.h>
 
 // Import semua "Otak" AC populer di Indonesia
-#include <ir_Daikin.h>
-#include <ir_Panasonic.h>
-#include <ir_Sharp.h>
-#include <ir_LG.h>
-#include <ir_Samsung.h>
-#include <ir_Gree.h>
+#include <ir_Daikin.h> //14
+#include <ir_Panasonic.h> //3
+#include <ir_Sharp.h> //27
+#include <ir_LG.h> //6
+#include <ir_Samsung.h> //11
+#include <ir_Gree.h> //32
 
 const uint16_t kIrLed = 14;
 
