@@ -1,12 +1,21 @@
 #include "network_manager.h"
 #include <WiFiManager.h>
+#include <Ticker.h>
 
+Ticker ticker;
+const int LED_PIN = 2; // LED internal untuk indikasi status WiFi
 const int RESET_PIN = 0; 
 unsigned long pressStartTime = 0;
 bool isPressing = false;
 
+void tick() {
+    int state = digitalRead(LED_PIN);
+    digitalWrite(LED_PIN, !state); // Toggle LED
+}
 void setupNetwork() {
+    pinMode(LED_PIN, OUTPUT);
     pinMode(RESET_PIN, INPUT_PULLUP);
+    ticker.attach(0.5, tick); // LED berkedip setiap 500ms untuk indikasi WiFi
     
     WiFiManager wm;
     // menambahkan css custom jika diperlukan
@@ -114,6 +123,8 @@ document.addEventListener('DOMContentLoaded', function () {
         Serial.println("Gagal terhubung, restarting...");
         ESP.restart();
     }
+    ticker.detach(); // Berhenti berkedip setelah terhubung
+    digitalWrite(LED_PIN, HIGH); // LED menyala solid untuk indikasi sukses
     Serial.println("Terhubung ke WiFi!");
 }
 
