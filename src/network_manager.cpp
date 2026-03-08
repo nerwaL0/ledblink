@@ -7,7 +7,7 @@ const int LED_PIN = 2; // LED internal untuk indikasi status WiFi
 const int RESET_PIN = 0; 
 unsigned long pressStartTime = 0;
 bool isPressing = false;
-int currentBlinkPhase = -1; // 0: cepat, 1: sedang, 2: lambat, 3: solid
+int currentBlinkPhase = -1; // -1: Tidak berkedip, 0: Lambat, 1: Sedang, 2: Cepat, 3: Sangat Cepat (Reset)
 
 void tick() {
     int state = digitalRead(LED_PIN);
