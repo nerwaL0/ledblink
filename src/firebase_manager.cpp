@@ -76,3 +76,13 @@ void handleFirebaseUpdates() {
         }
     }
 }
+void uploadSensorData(float temp, float hum) {
+    if (Firebase.ready()) {
+        if (Firebase.setFloat(fbdo, createPath(userPath, "/read_temp").c_str(), temp)) {
+            Serial.println(F("Data Suhu berhasil diunggah."));
+     }
+        if (Firebase.setFloat(fbdo, createPath(userPath, "/read_hum").c_str(), hum)) {
+            Serial.println(F("Data Kelembapan berhasil diunggah."));
+        }
+    }
+}

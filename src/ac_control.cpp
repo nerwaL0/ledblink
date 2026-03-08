@@ -2,7 +2,7 @@
 #include <IRremoteESP8266.h>
 #include <IRsend.h>
 
-// Import semua "Otak" AC populer di Indonesia
+// Import semua AC populer di Indonesia
 #include <ir_Daikin.h> //14
 #include <ir_Panasonic.h> //3
 #include <ir_Sharp.h> //27

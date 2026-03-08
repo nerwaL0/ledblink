@@ -6,5 +6,5 @@
 // Fungsi utama untuk inisialisasi dan pengecekan data
 void setupFirebase();
 void handleFirebaseUpdates();
-
+void uploadSensorData(float temp, float hum);
 #endif
