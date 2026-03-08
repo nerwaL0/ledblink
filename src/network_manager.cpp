@@ -7,6 +7,7 @@ const int LED_PIN = 2; // LED internal untuk indikasi status WiFi
 const int RESET_PIN = 0; 
 unsigned long pressStartTime = 0;
 bool isPressing = false;
+int currentBlinkPhase = -1; // 0: cepat, 1: sedang, 2: lambat, 3: solid
 
 void tick() {
     int state = digitalRead(LED_PIN);
@@ -134,14 +135,28 @@ void checkResetButton() {
             pressStartTime = millis();
             isPressing = true;
             Serial.println("Tombol Boot ditekan, tahan 5 detik untuk reset...");
-        } else if (millis() - pressStartTime >= 5000) {
+        } 
+        unsigned long elapsed = millis() - pressStartTime;
+        
+        int newPhase = (elapsed < 2000) ? 0 : (elapsed < 3500) ? 1 : 2;
+        if (elapsed >= 5000) newPhase = 3;
+
+        if (newPhase != currentBlinkPhase) {
+            currentBlinkPhase = newPhase;
+            ticker.detach();
+
+            if (currentBlinkPhase == 0) ticker.attach(0.4, tick);
+            else if (currentBlinkPhase == 1) ticker.attach(0.2, tick);
+            else if (currentBlinkPhase == 2) ticker.attach(0.05, tick);
+            else if (currentBlinkPhase == 3) {
             Serial.println("Mereset WiFi...");
             WiFiManager wm;
             wm.resetSettings();
-            delay(1000);
+            delay(1000); // Beri waktu untuk reset sebelum restart
             ESP.restart();
-        }
-    } else {
+        }    
+    }
+} else {
         if (isPressing) {
             Serial.println("Reset dibatalkan.");
             isPressing = false;
