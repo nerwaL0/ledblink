@@ -172,4 +172,5 @@ void tembakSinyalAC(int id, bool powerStatus, int temp, int fan, bool swing, int
             return;
     }
     Serial.println("Sinyal Berhasil Terkirim!");
+    delay(200); // Delay kecil untuk memastikan sinyal terkirim sempurna sebelum perintah berikutnya
 }

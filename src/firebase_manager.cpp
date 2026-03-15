@@ -39,8 +39,9 @@ void setupFirebase() {
 
 void handleFirebaseUpdates() {
     // Interval cek setiap 2 detik sesuai spesifikasi latensi sistem [cite: 109]
+    if (millis() < 5000) return; 
     if (millis() - lastFirebaseCheck < 2000) return;
-    lastFirebaseCheck = millis();
+    lastFirebaseCheck = millis();   
 
     if (Firebase.ready()) {
         // ambil seluruh objek settings sekaligus

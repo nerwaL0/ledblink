@@ -6,10 +6,11 @@
 
 void setup() {
     Serial.begin(115200);
+    setupSensor();    // Inisialisasi Sensor DHT22
     setupAC();
     setupNetwork();   // Inisialisasi WiFi Manager
     setupFirebase();  // Inisialisasi Firebase & Path
-    setupSensor();    // Inisialisasi Sensor DHT22
+    
 }
 
 void loop() {

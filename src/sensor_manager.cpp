@@ -6,7 +6,7 @@
 
 DHTesp dht;
 unsigned long lastSensorRead = 0;
-const unsigned long SENSOR_INTERVAL = 2000; // tiap detik (testing)
+const unsigned long SENSOR_INTERVAL = 5000; // tiap 2 menit (testing)
 
 void setupSensor() {
     delay(2000); // Delay untuk memastikan sensor siap setelah boot
@@ -20,11 +20,16 @@ void readAndUploadSensor() {
     if (millis() - lastSensorRead >= SENSOR_INTERVAL) {
         lastSensorRead = millis();
 
-        // Mengambil data suhu dan kelembapan
-        float hum = dht.getHumidity();
-        float temp = dht.getTemperature();
+    float hum, temp;
+    int retries = 3;
+    while (retries--) {
+        hum = dht.getHumidity();
+        temp = dht.getTemperature();
+        if (dht.getStatus() == DHTesp::ERROR_NONE) break;
+        Serial.println("Retrying DHT read...");
+        delay(2000); // must wait full 2s between reads
+    }
 
-        // Validasi pembacaan sensor
         if (dht.getStatus() != DHTesp::ERROR_NONE) {
             Serial.print(F("Gagal membaca dari sensor DHT! Error: "));
             Serial.println(dht.getStatusString());
